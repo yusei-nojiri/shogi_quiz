@@ -18,6 +18,18 @@ questions = [
     }
 ]
 
+board = [
+    ["香", "桂", "銀", "金", "玉", "金", "銀", "桂", "香"],
+    ["", "飛", "", "", "", "", "", "角", ""],
+    ["歩", "歩", "歩", "歩", "歩", "歩", "歩", "歩", "歩"],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["歩", "歩", "歩", "歩", "歩", "歩", "歩", "歩", "歩"],
+    ["", "角", "", "", "", "", "", "飛", ""],
+    ["香", "桂", "銀", "金", "玉", "金", "銀", "桂", "香"]
+]
+
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -73,7 +85,8 @@ def home():
         correct_choice=correct_choice,
         question_index=question_index,
         total_questions=len(questions),
-        score=session.get("score", 0)
+        score=session.get("score", 0),
+        board=board
     )
 
 

@@ -9,6 +9,19 @@
 <body>
 	<div class="container">
     	<h1>将棋 次の一手クイズ</h1>
+		
+		<div class="board">
+			    {% for row in board %}
+			        <div class="board-row">
+			            {% for square in row %}
+			                <div class="square">
+			                    {{ square }}
+			                </div>
+			            {% endfor %}
+			        </div>
+			    {% endfor %}
+		</div>
+		
 		<p>問題 {{ question_index + 1 }} / {{ total_questions }}</p>
 
     	<h2>{{ question["question"] }}</h2>
