@@ -51,6 +51,7 @@ button {
     width: 50px;
     height: 50px;
     border: 1px solid black;
+	box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -64,4 +65,46 @@ button {
 
 .piece.gote {
     transform: rotate(180deg);
+}
+
+.board-wrapper {
+    width: fit-content;
+    margin: 20px auto;
+}
+
+.file-numbers {
+    width: 450px;
+    margin-left: 2px;
+    display: flex;
+}
+
+.file-numbers span {
+    width: 50px;
+    text-align: center;
+}
+
+.board-area {
+    display: flex;
+    align-items: flex-start;
+}
+
+.board {
+    margin: 20px 0 0 0;
+}
+
+.rank-numbers {
+    display: flex;
+    flex-direction: column;
+    margin-top: 22px;
+}
+
+.rank-numbers span {
+    width: 30px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
 }

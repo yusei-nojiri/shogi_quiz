@@ -10,20 +10,50 @@
 	<div class="container">
     	<h1>将棋 次の一手クイズ</h1>
 		
-		<div class="board">
-		    {% for row in board %}
-		        <div class="board-row">
+		<div class="board-wrapper">
 
-		            {% for piece, side in row %}
-		                <div class="square">
-		                    <span class="piece {{ side }}">
-		                        {{ piece }}
-		                    </span>
+		    <div class="file-numbers">
+		        <span>9</span>
+		        <span>8</span>
+		        <span>7</span>
+		        <span>6</span>
+		        <span>5</span>
+		        <span>4</span>
+		        <span>3</span>
+		        <span>2</span>
+		        <span>1</span>
+		    </div>
+
+		    <div class="board-area">
+
+		        <div class="board">
+		            {% for row in board %}
+		                <div class="board-row">
+		                    {% for piece, side in row %}
+		                        <div class="square">
+		                            <span class="piece {{ side }}">
+		                                {{ piece }}
+		                            </span>
+		                        </div>
+		                    {% endfor %}
 		                </div>
 		            {% endfor %}
-
 		        </div>
-		    {% endfor %}
+
+		        <div class="rank-numbers">
+		            <span>一</span>
+		            <span>二</span>
+		            <span>三</span>
+		            <span>四</span>
+		            <span>五</span>
+		            <span>六</span>
+		            <span>七</span>
+		            <span>八</span>
+		            <span>九</span>
+		        </div>
+
+		    </div>
+
 		</div>
 		
 		<p>問題 {{ question_index + 1 }} / {{ total_questions }}</p>
