@@ -77,5 +77,16 @@ def home():
     )
 
 
+@app.route("/result")
+def result():
+    score = session.get("score", 0)
+
+    return render_template(
+        "result.html",
+        score=score,
+        total_questions=len(questions)
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True)

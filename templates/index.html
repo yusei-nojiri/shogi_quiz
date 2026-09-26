@@ -34,8 +34,7 @@
 		{% if question_index + 1 < total_questions %}
 		    <a href="/?q={{ question_index + 1 }}">次の問題へ</a>
 		{% else %}
-		    <h2>結果</h2>
-		    <p>{{ total_questions }}問中 {{ score }}問正解！</p>
+		    <a href="/result">結果を見る</a>
 		{% endif %}
 	{% endif %}
 </body>
