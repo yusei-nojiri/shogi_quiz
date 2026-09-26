@@ -3,39 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>将棋 次の一手クイズ</title>
+	
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>将棋 次の一手クイズ</h1>
-	<p>問題 {{ question_index + 1 }} / {{ total_questions }}</p>
+	<div class="container">
+    	<h1>将棋 次の一手クイズ</h1>
+		<p>問題 {{ question_index + 1 }} / {{ total_questions }}</p>
 
-    <h2>{{ question["question"] }}</h2>
+    	<h2>{{ question["question"] }}</h2>
 
-	{% if not result %}
-	    <form method="POST">
-	        <input type="hidden" name="question_index" value="{{ question_index }}">
+		{% if not result %}
+	    	<form method="POST">
+	        	<input type="hidden" name="question_index" value="{{ question_index }}">
 
-	        {% for choice in question["choices"] %}
-	            <label>
-	                <input type="radio" name="answer" value="{{ loop.index }}">
-	                {{ loop.index }}：{{ choice }}
-	            </label>
-	            <br>
-	        {% endfor %}
+	        	{% for choice in question["choices"] %}
+	            	<label>
+	                	<input type="radio" name="answer" value="{{ loop.index }}">
+	                	{{ loop.index }}：{{ choice }}
+	            	</label>
+	            	<br>
+	        	{% endfor %}
 
-	        <button type="submit">回答する</button>
-	    </form>
-	{% endif %}
-	
-	{% if result %}
-	    <h2>{{ result }}</h2>
-	    <p>正解は「{{ correct_choice }}」です。</p>
-	    <p>{{ question["explanation"] }}</p>
-
-		{% if question_index + 1 < total_questions %}
-		    <a href="/?q={{ question_index + 1 }}">次の問題へ</a>
-		{% else %}
-		    <a href="/result">結果を見る</a>
+	        	<button type="submit">回答する</button>
+	    	</form>
 		{% endif %}
-	{% endif %}
+	
+		{% if result %}
+	    	<h2>{{ result }}</h2>
+	    	<p>正解は「{{ correct_choice }}」です。</p>
+	    	<p>{{ question["explanation"] }}</p>
+
+			{% if question_index + 1 < total_questions %}
+		    	<a href="/?q={{ question_index + 1 }}">次の問題へ</a>
+			{% else %}
+		    	<a href="/result">結果を見る</a>
+			{% endif %}
+		{% endif %}
+	</div>
 </body>
 </html>

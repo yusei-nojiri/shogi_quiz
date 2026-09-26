@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>クイズ結果</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+	<div class="container">
 
-    <h1>クイズ結果</h1>
+    	<h1>クイズ結果</h1>
 
-    <p>{{ total_questions }}問中 {{ score }}問正解！</p>
+    	<p>{{ total_questions }}問中 {{ score }}問正解！</p>
 
-    <a href="/">もう一度挑戦する</a>
-
+    	<a href="/">もう一度挑戦する</a>
+	</div>
 </body>
 </html>
