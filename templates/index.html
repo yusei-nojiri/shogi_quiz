@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>将棋 次の一手クイズ</title>
+</head>
+<body>
+    <h1>将棋 次の一手クイズ</h1>
+	<p>問題 {{ question_index + 1 }} / {{ total_questions }}</p>
+
+    <h2>{{ question["question"] }}</h2>
+
+	{% if not result %}
+	    <form method="POST">
+	        <input type="hidden" name="question_index" value="{{ question_index }}">
+
+	        {% for choice in question["choices"] %}
+	            <label>
+	                <input type="radio" name="answer" value="{{ loop.index }}">
+	                {{ loop.index }}：{{ choice }}
+	            </label>
+	            <br>
+	        {% endfor %}
+
+	        <button type="submit">回答する</button>
+	    </form>
+	{% endif %}
+	
+	{% if result %}
+	    <h2>{{ result }}</h2>
+	    <p>正解は「{{ correct_choice }}」です。</p>
+	    <p>{{ question["explanation"] }}</p>
+
+		{% if question_index + 1 < total_questions %}
+		    <a href="/?q={{ question_index + 1 }}">次の問題へ</a>
+		{% else %}
+		    <h2>結果</h2>
+		    <p>{{ total_questions }}問中 {{ score }}問正解！</p>
+		{% endif %}
+	{% endif %}
+</body>
+</html>
