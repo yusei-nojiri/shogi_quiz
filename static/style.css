@@ -58,3 +58,10 @@ button {
 
     font-size: 24px;
 }
+.piece {
+    display: inline-block;
+}
+
+.piece.gote {
+    transform: rotate(180deg);
+}
