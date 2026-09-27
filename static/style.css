@@ -108,3 +108,6 @@ button {
 
     box-sizing: border-box;
 }
+.correct-square {
+    background-color: #fff3a3;
+}

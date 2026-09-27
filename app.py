@@ -5,10 +5,11 @@ app.secret_key = "shogi-quiz-secret-key"
 
 questions = [
     {
-        "question": "次の一手を選んでください。",
+        "question": "角道を開ける一手はどれ？",
         "choices": ["▲7六歩", "▲2六歩", "▲5六歩"],
-        "answer": "2",
-        "explanation": "飛車先の歩を進め、攻撃の準備をする手です。"
+        "answer": "1",
+        "explanation": "▲7六歩と指すことで、先手の角の斜めの道が開きます。",
+        "correct_square": [5, 2]
     },
     {
         "question": "この局面で1マス前に進んでいる先手の駒は？",
@@ -33,9 +34,14 @@ board2 = [row.copy() for row in board1]
 board2[6][2] = ("", "")
 board2[5][2] = ("歩", "sente")
 
+board1_answer = [row.copy() for row in board1]
+board1_answer[6][2] = ("", "")
+board1_answer[5][2] = ("歩", "sente")
+
 questions[0]["board"] = board1
 questions[1]["board"] = board2
 
+questions[0]["answer_board"] = board1_answer
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -78,6 +84,11 @@ def home():
         result = "不正解！"
     else:
         result = None
+    
+    display_board = question["board"]
+
+    if result == "正解！" and question.get("answer_board"):
+        display_board = question["answer_board"]
 
     correct_choice = None
 
@@ -92,7 +103,7 @@ def home():
         question_index=question_index,
         total_questions=len(questions),
         score=session.get("score", 0),
-        board=question["board"]
+        board=display_board
     )
 
 

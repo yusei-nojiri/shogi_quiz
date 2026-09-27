@@ -26,19 +26,32 @@
 
 		    <div class="board-area">
 
-		        <div class="board">
-		            {% for row in board %}
-		                <div class="board-row">
-		                    {% for piece, side in row %}
-		                        <div class="square">
-		                            <span class="piece {{ side }}">
-		                                {{ piece }}
-		                            </span>
-		                        </div>
-		                    {% endfor %}
-		                </div>
-		            {% endfor %}
-		        </div>
+				<div class="board">
+				    {% for row in board %}
+				        {% set row_index = loop.index0 %}
+
+				        <div class="board-row">
+				            {% for piece, side in row %}
+
+				                <div class="square
+				                    {% if result == "正解！"
+				                        and question.get("correct_square")
+				                        and row_index == question["correct_square"][0]
+				                        and loop.index0 == question["correct_square"][1] %}
+				                        correct-square
+				                    {% endif %}
+				                ">
+
+				                    <span class="piece {{ side }}">
+				                        {{ piece }}
+				                    </span>
+
+				                </div>
+
+				            {% endfor %}
+				        </div>
+				    {% endfor %}
+				</div>
 
 		        <div class="rank-numbers">
 		            <span>一</span>
