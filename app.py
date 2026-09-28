@@ -61,7 +61,8 @@ def home():
             url_for(
                 "home",
                 q=question_index,
-                result=result
+                result=result,
+                selected=answer
             )
         )
 
@@ -77,6 +78,7 @@ def home():
     question = questions[question_index]
 
     result_code = request.args.get("result")
+    selected = request.args.get("selected")
 
     if result_code == "correct":
         result = "正解！"
@@ -91,15 +93,20 @@ def home():
         display_board = question["answer_board"]
 
     correct_choice = None
+    selected_choice = None
 
     if result:
         correct_choice = question["choices"][int(question["answer"]) - 1]
+
+    if selected:
+        selected_choice = question["choices"][int(selected) - 1]
 
     return render_template(
         "index.html",
         question=question,
         result=result,
         correct_choice=correct_choice,
+        selected_choice=selected_choice,
         question_index=question_index,
         total_questions=len(questions),
         score=session.get("score", 0),

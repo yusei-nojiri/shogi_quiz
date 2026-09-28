@@ -90,9 +90,10 @@
 		{% endif %}
 	
 		{% if result %}
-	    	<h2>{{ result }}</h2>
-	    	<p>正解は「{{ correct_choice }}」です。</p>
-	    	<p>{{ question["explanation"] }}</p>
+		    <h2>{{ result }}</h2>
+		    <p>あなたの回答：「{{ selected_choice }}」</p>
+		    <p>正解は「{{ correct_choice }}」です。</p>
+		    <p>{{ question["explanation"] }}</p>
 
 			{% if question_index + 1 < total_questions %}
 		    	<a href="/?q={{ question_index + 1 }}">次の問題へ</a>
