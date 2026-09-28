@@ -34,7 +34,7 @@
 				            {% for piece, side in row %}
 
 				                <div class="square
-				                    {% if result == "正解！"
+				                    {% if result
 				                        and question.get("correct_square")
 				                        and row_index == question["correct_square"][0]
 				                        and loop.index0 == question["correct_square"][1] %}

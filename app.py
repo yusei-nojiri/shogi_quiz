@@ -87,7 +87,7 @@ def home():
     
     display_board = question["board"]
 
-    if result == "正解！" and question.get("answer_board"):
+    if result and question.get("answer_board"):
         display_board = question["answer_board"]
 
     correct_choice = None
