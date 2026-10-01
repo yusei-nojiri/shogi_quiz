@@ -132,11 +132,13 @@ def home():
 @app.route("/result")
 def result():
     score = session.get("score", 0)
+    correct_rate = round(score / len(questions) * 100)
 
     return render_template(
         "result.html",
         score=score,
-        total_questions=len(questions)
+        total_questions=len(questions),
+        correct_rate=correct_rate
     )
 
 
