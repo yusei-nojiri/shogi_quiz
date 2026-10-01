@@ -80,7 +80,7 @@
 
 	        	{% for choice in question["choices"] %}
 	            	<label>
-	                	<input type="radio" name="answer" value="{{ loop.index }}">
+	                	<input type="radio" name="answer" value="{{ loop.index }}" required>
 	                	{{ loop.index }}：{{ choice }}
 	            	</label>
 	            	<br>
