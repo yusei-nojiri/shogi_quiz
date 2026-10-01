@@ -22,7 +22,7 @@
 		<h2>回答結果</h2>
 
 		{% for item in answer_results %}
-		    <div class="answer-result">
+		    <div class="answer-result {% if item['correct'] %}correct{% else %}wrong{% endif %}">
 		        <p>問題 {{ loop.index }}：{{ item["question"] }}</p>
 		        <p>あなたの回答：{{ item["selected_choice"] }}</p>
 		        <p>正解：{{ item["correct_choice"] }}</p>

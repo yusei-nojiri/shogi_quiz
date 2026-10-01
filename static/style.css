@@ -111,3 +111,17 @@ button {
 .correct-square {
     background-color: #fff3a3;
 }
+.answer-result {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #cccccc;
+}
+
+.answer-result.correct {
+    background-color: #e8f5e9;
+}
+
+.answer-result.wrong {
+    background-color: #ffebee;
+}
