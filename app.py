@@ -16,6 +16,13 @@ questions = [
         "choices": ["歩", "角", "飛"],
         "answer": "1",
         "explanation": "先手の歩が初期位置から1マス前に進んでいます。"
+    },
+    {
+        "question": "飛車先の歩を進める一手はどれ？",
+        "choices": ["▲2六歩", "▲6六歩", "▲4六歩"],
+        "answer": "1",
+        "explanation": "▲2六歩と指すことで、飛車先の歩を進めます。",
+        "correct_square": [5, 7]
     }
 ]
 
@@ -38,10 +45,18 @@ board1_answer = [row.copy() for row in board1]
 board1_answer[6][2] = ("", "")
 board1_answer[5][2] = ("歩", "sente")
 
+board3 = [row.copy() for row in board1_answer]
+
+board3_answer = [row.copy() for row in board3]
+board3_answer[6][7] = ("", "")
+board3_answer[5][7] = ("歩", "sente")
+
 questions[0]["board"] = board1
 questions[1]["board"] = board2
+questions[2]["board"] = board3
 
 questions[0]["answer_board"] = board1_answer
+questions[2]["answer_board"] = board3_answer
 
 @app.route("/", methods=["GET", "POST"])
 def home():
