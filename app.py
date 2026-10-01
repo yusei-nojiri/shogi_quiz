@@ -65,6 +65,13 @@ def home():
         question_index = int(request.form.get("question_index"))
         question = questions[question_index]
         answer = request.form.get("answer")
+        if answer is None:
+            return redirect(
+                url_for(
+                    "home",
+                    q=question_index
+                )
+            )
 
         if answer == question["answer"]:
             session["score"] += 1
