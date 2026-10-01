@@ -19,6 +19,21 @@
 		{% else %}
 		    <p>もう一度挑戦してみましょう！</p>
 		{% endif %}
+		<h2>回答結果</h2>
+
+		{% for item in answer_results %}
+		    <div class="answer-result">
+		        <p>問題 {{ loop.index }}：{{ item["question"] }}</p>
+		        <p>あなたの回答：{{ item["selected_choice"] }}</p>
+		        <p>正解：{{ item["correct_choice"] }}</p>
+
+		        {% if item["correct"] %}
+		            <p>○ 正解</p>
+		        {% else %}
+		            <p>× 不正解</p>
+		        {% endif %}
+		    </div>
+		{% endfor %}
 
     	<a href="/">もう一度挑戦する</a>
 	</div>

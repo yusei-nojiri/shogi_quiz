@@ -71,6 +71,16 @@ def home():
             result = "correct"
         else:
             result = "wrong"
+            
+        answers = session.get("answers", [])
+
+        answers.append({
+            "question_index": question_index,
+            "selected": answer,
+            "correct": answer == question["answer"]
+        })
+
+        session["answers"] = answers
 
         return redirect(
             url_for(
@@ -87,6 +97,7 @@ def home():
     if q is None:
         question_index = 0
         session["score"] = 0
+        session["answers"] = []
     else:
         question_index = int(q)
 
@@ -134,13 +145,29 @@ def result():
     score = session.get("score", 0)
     correct_rate = round(score / len(questions) * 100)
 
+    answers = session.get("answers", [])
+    answer_results = []
+
+    for item in answers:
+        question = questions[item["question_index"]]
+
+        selected_choice = question["choices"][int(item["selected"]) - 1]
+        correct_choice = question["choices"][int(question["answer"]) - 1]
+
+        answer_results.append({
+            "question": question["question"],
+            "selected_choice": selected_choice,
+            "correct_choice": correct_choice,
+            "correct": item["correct"]
+        })
+
     return render_template(
         "result.html",
         score=score,
         total_questions=len(questions),
-        correct_rate=correct_rate
+        correct_rate=correct_rate,
+        answer_results=answer_results
     )
-
 
 if __name__ == "__main__":
     app.run(debug=True)
