@@ -12,6 +12,13 @@
 
     	<p>{{ total_questions }}問中 {{ score }}問正解！</p>
 		<p>正答率：{{ correct_rate }}%</p>
+		{% if correct_rate == 100 %}
+		    <p>全問正解！すばらしいです！</p>
+		{% elif correct_rate >= 60 %}
+		    <p>よくできました！</p>
+		{% else %}
+		    <p>もう一度挑戦してみましょう！</p>
+		{% endif %}
 
     	<a href="/">もう一度挑戦する</a>
 	</div>
