@@ -74,12 +74,18 @@ def home():
                 already_answered = True
         
         if already_answered:
-            return redirect(
-                url_for(
-                    "home",
-                    q=question_index
-                )
-            )
+            for item in answers:
+                if item["question_index"] == question_index:
+                    previous_result = "correct" if item["correct"] else "wrong"
+
+                    return redirect(
+                        url_for(
+                            "home",
+                            q=question_index,
+                            result=previous_result,
+                            selected=item["selected"]
+                        )
+                    )
                 
         answer = request.form.get("answer")
         if answer is None:
