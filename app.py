@@ -1,3 +1,4 @@
+import random
 from flask import Flask, render_template, request, session, redirect, url_for
 from questions import questions
 
@@ -19,7 +20,12 @@ def home():
             return redirect(url_for("home"))
         
         
-        question = questions[question_index]
+        question_order = session.get("question_order")
+
+        if question_order is None:
+            return redirect(url_for("home"))
+
+        question = questions[question_order[question_index]]
         
         answers = session.get("answers", [])
 
@@ -86,6 +92,10 @@ def home():
         question_index = 0
         session["score"] = 0
         session["answers"] = []
+        question_order = list(range(len(questions)))
+        random.shuffle(question_order)
+        session["question_order"] = question_order
+    
     else:
         try:
             question_index = int(q)
@@ -95,7 +105,12 @@ def home():
         if not (0 <= question_index < len(questions)):
             return redirect(url_for("home"))
 
-    question = questions[question_index]
+    question_order = session.get("question_order")
+
+    if question_order is None:
+        return redirect(url_for("home"))
+
+    question = questions[question_order[question_index]]
 
     result_code = request.args.get("result")
     selected = request.args.get("selected")
@@ -140,10 +155,12 @@ def result():
     correct_rate = round(score / len(questions) * 100)
 
     answers = session.get("answers", [])
+    question_order = session.get("question_order", [])
     answer_results = []
 
     for item in answers:
-        question = questions[item["question_index"]]
+        question_index = item["question_index"]
+        question = questions[question_order[question_index]]
 
         selected_choice = question["choices"][int(item["selected"]) - 1]
         correct_choice = question["choices"][int(question["answer"]) - 1]
