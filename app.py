@@ -10,7 +10,15 @@ app.secret_key = "shogi-quiz-secret-key"
 def home():
 
     if request.method == "POST":
-        question_index = int(request.form.get("question_index"))
+        try:
+            question_index = int(request.form.get("question_index"))
+        except (ValueError, TypeError):
+            return redirect(url_for("home"))
+
+        if not (0 <= question_index < len(questions)):
+            return redirect(url_for("home"))
+        
+        
         question = questions[question_index]
         
         answers = session.get("answers", [])
@@ -36,13 +44,15 @@ def home():
                     )
                 
         answer = request.form.get("answer")
-        if answer is None:
-            return redirect(
-                url_for(
-                    "home",
-                    q=question_index
-                )
-            )
+        try:
+            answer_number = int(answer)
+        except (ValueError, TypeError):
+            return redirect(url_for("home", q=question_index))
+
+        if not (1 <= answer_number <= len(question["choices"])):
+            return redirect(url_for("home", q=question_index))
+
+        answer = str(answer_number)
 
         if answer == question["answer"]:
             session["score"] += 1
@@ -77,7 +87,13 @@ def home():
         session["score"] = 0
         session["answers"] = []
     else:
-        question_index = int(q)
+        try:
+            question_index = int(q)
+        except ValueError:
+            return redirect(url_for("home"))
+        
+        if not (0 <= question_index < len(questions)):
+            return redirect(url_for("home"))
 
     question = questions[question_index]
 
