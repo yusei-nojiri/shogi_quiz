@@ -9,6 +9,17 @@
 <body>
 	<div class="container">
     	<h1>将棋 次の一手クイズ</h1>
+		{% if hands is not none %}
+		    <div class="hand-area">
+		        <p>後手の持ち駒：
+		            {% for name, count in hands["gote"].items() %}
+		                {{ name }} × {{ count }}
+		            {% else %}
+		                なし
+		            {% endfor %}
+		        </p>
+		    </div>
+		{% endif %}
 		
 		<div class="board-wrapper">
 
@@ -68,6 +79,18 @@
 		    </div>
 
 		</div>
+		
+		{% if hands is not none %}
+		    <div class="hand-area">
+		        <p>先手の持ち駒：
+		            {% for name, count in hands["sente"].items() %}
+		                {{ name }} × {{ count }}
+		            {% else %}
+		                なし
+		            {% endfor %}
+		        </p>
+		    </div>
+		{% endif %}
 		
 		<p>問題 {{ question_index + 1 }} / {{ total_questions }}</p>
 		<p>現在の得点：{{ score }} 点</p>

@@ -1,3 +1,4 @@
+from kif_utils import get_position
 questions = [
     {
         "question": "角道を開ける一手はどれ？",
@@ -52,3 +53,33 @@ questions[2]["board"] = board3
 
 questions[0]["answer_board"] = board1_answer
 questions[2]["answer_board"] = board3_answer
+
+# 第4問：実戦棋譜から作成した受けの一手
+
+# 19手目終了時点（問題の局面）
+board4, hands4 = get_position(19)
+
+# 20手目終了時点（正解後の局面）
+board4_answer, hands4_answer = get_position(20)
+
+questions.append({
+    "question": "先手の▲4四角成で王手がかかった局面。後手の最も評価が高い受けの一手は？",
+
+    "choices": [
+        "△3一玉(22)",
+        "△3三銀打",
+        "△3三桂(21)"
+    ],
+
+    "answer": "2",
+
+    "explanation": "△3三銀打は、王手を防ぎながら4四の馬に当てる一手です。△3三桂では▲3四桂の王手、△3一玉では▲1一馬による香取りが厳しくなります。",
+
+    "board": board4,
+    "hands": hands4,
+
+    "answer_board": board4_answer,
+    "answer_hands": hands4_answer,
+    
+    "correct_square": [2, 6]
+})

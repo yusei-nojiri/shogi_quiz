@@ -123,10 +123,14 @@ def home():
         result = None
     
     display_board = question["board"]
+    display_hands = question.get("hands")
 
     if result and question.get("answer_board"):
         display_board = question["answer_board"]
 
+    if result and question.get("answer_hands") is not None:
+        display_hands = question["answer_hands"]
+   
     correct_choice = None
     selected_choice = None
 
@@ -145,7 +149,8 @@ def home():
         question_index=question_index,
         total_questions=len(questions),
         score=session.get("score", 0),
-        board=display_board
+        board=display_board,
+        hands=display_hands
     )
 
 
