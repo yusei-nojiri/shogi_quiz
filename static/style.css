@@ -125,3 +125,30 @@ button {
 .answer-result.wrong {
     background-color: #ffebee;
 }
+/* 学習成績ページのテーブル */
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+/* 見出しとデータのセル */
+.stats-table th,
+.stats-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+
+/* 見出し行の背景色 */
+.stats-table th {
+    background-color: #e8eef5;
+}
+
+/* 正答率グラフ */
+.stats-table progress {
+    width: 120px;
+    height: 18px;
+    accent-color: #4285c5;
+}

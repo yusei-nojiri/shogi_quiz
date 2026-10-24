@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>学習成績 - 将棋 次の一手クイズ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>学習成績</h1>
+
+        <h2>カテゴリ別の正答率</h2>
+
+        {% if stats %}
+		<table class="stats-table">
+		    <tr>
+		        <th>カテゴリ</th>
+		        <th>回答数</th>
+		        <th>正解数</th>
+		        <th>正答率</th>
+		        <th>グラフ</th>
+		    </tr>
+
+		    {% for category, total, correct_count, correct_rate in stats %}
+		        <tr>
+		            <td>{{ category }}</td>
+		            <td>{{ total }}</td>
+		            <td>{{ correct_count }}</td>
+					<td>
+					    {{ correct_rate }}%
+
+					    {% if total < 10 %}
+					        <small>（参考値）</small>
+					    {% endif %}
+					</td>
+		            <td>
+		                <progress value="{{ correct_rate }}" max="100">
+		                    {{ correct_rate }}%
+		                </progress>
+		            </td>
+		        </tr>
+		    {% endfor %}
+		</table>
+        {% else %}
+            <p>まだ解答履歴がありません。</p>
+        {% endif %}
+
+        <p>
+            <a href="{{ url_for('home') }}">トップページに戻る</a>
+        </p>
+    </div>
+</body>
+</html>

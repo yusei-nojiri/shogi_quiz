@@ -1,20 +1,26 @@
 from kif_utils import get_position
 questions = [
     {
+        "id": "q001",
         "question": "角道を開ける一手はどれ？",
+        "category": "基礎",
         "choices": ["▲7六歩", "▲2六歩", "▲5六歩"],
         "answer": "1",
         "explanation": "▲7六歩と指すことで、先手の角の斜めの道が開きます。",
         "correct_square": [5, 2]
     },
     {
+        "id": "q002",
         "question": "この局面で1マス前に進んでいる先手の駒は？",
+        "category": "基礎",
         "choices": ["歩", "角", "飛"],
         "answer": "1",
         "explanation": "先手の歩が初期位置から1マス前に進んでいます。"
     },
     {
+        "id": "q003",
         "question": "飛車先の歩を進める一手はどれ？",
+        "category": "基礎",
         "choices": ["▲2六歩", "▲6六歩", "▲4六歩"],
         "answer": "1",
         "explanation": "▲2六歩と指すことで、飛車先の歩を進めます。",
@@ -63,7 +69,9 @@ board4, hands4 = get_position(19)
 board4_answer, hands4_answer = get_position(20)
 
 questions.append({
+    "id": "q004",
     "question": "先手の▲4四角成で王手がかかった局面。後手の最も評価が高い受けの一手は？",
+    "category": "受け",
 
     "choices": [
         "△3一玉(22)",

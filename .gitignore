@@ -1,5 +1,14 @@
+# Eclipseの設定ファイル
 .project
 .pydevproject
 .settings/
+
+# Pythonのキャッシュファイル
 __pycache__/
 *.pyc
+
+# SQLiteデータベース
+shogi_quiz.db
+
+# 環境変数・秘密情報
+.env

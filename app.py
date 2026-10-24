@@ -1,9 +1,15 @@
+import os
+import secrets
 import random
 from flask import Flask, render_template, request, session, redirect, url_for
 from questions import questions
+from database import save_answer, get_category_stats, get_review_question_ids, init_db
 
 app = Flask(__name__)
-app.secret_key = "shogi-quiz-secret-key"
+
+app.secret_key = os.environ.get("SHOGI_SECRET_KEY") or secrets.token_hex(32)
+
+init_db()
 
 
 
@@ -16,13 +22,12 @@ def home():
         except (ValueError, TypeError):
             return redirect(url_for("home"))
 
-        if not (0 <= question_index < len(questions)):
-            return redirect(url_for("home"))
-        
-        
         question_order = session.get("question_order")
 
-        if question_order is None:
+        if not question_order:
+            return redirect(url_for("home"))
+
+        if not (0 <= question_index < len(question_order)):
             return redirect(url_for("home"))
 
         question = questions[question_order[question_index]]
@@ -75,6 +80,13 @@ def home():
         })
 
         session["answers"] = answers
+        # SQLiteに解答履歴を保存
+        save_answer(
+            question_id=question["id"],
+            category=question["category"],
+            selected=answer,
+            is_correct=(answer == question["answer"])
+        )
 
         return redirect(
             url_for(
@@ -92,20 +104,27 @@ def home():
         question_index = 0
         session["score"] = 0
         session["answers"] = []
+        session["mode"] = "normal"
         question_order = list(range(len(questions)))
         random.shuffle(question_order)
         session["question_order"] = question_order
-    
+
     else:
         try:
             question_index = int(q)
         except ValueError:
             return redirect(url_for("home"))
-        
-        if not (0 <= question_index < len(questions)):
-            return redirect(url_for("home"))
 
+    # ここからはifとelseの共通処理
     question_order = session.get("question_order")
+
+    if not question_order:
+        return redirect(url_for("home"))
+
+    if not (0 <= question_index < len(question_order)):
+        return redirect(url_for("home"))
+
+    question = questions[question_order[question_index]]
 
     if question_order is None:
         return redirect(url_for("home"))
@@ -147,20 +166,23 @@ def home():
         correct_choice=correct_choice,
         selected_choice=selected_choice,
         question_index=question_index,
-        total_questions=len(questions),
+        total_questions=len(question_order),
         score=session.get("score", 0),
         board=display_board,
-        hands=display_hands
+        hands=display_hands,
+        mode=session.get("mode", "normal")
     )
 
 
 @app.route("/result")
 def result():
     score = session.get("score", 0)
-    correct_rate = round(score / len(questions) * 100)
+    question_order = session.get("question_order", [])
+
+    total = len(question_order)
+    correct_rate = round(score / total * 100) if total > 0 else 0
 
     answers = session.get("answers", [])
-    question_order = session.get("question_order", [])
     answer_results = []
 
     for item in answers:
@@ -180,10 +202,46 @@ def result():
     return render_template(
         "result.html",
         score=score,
-        total_questions=len(questions),
+        total_questions=total,
         correct_rate=correct_rate,
         answer_results=answer_results
     )
 
+@app.route("/stats")
+def stats_page():
+    stats = get_category_stats()
+
+    return render_template("stats.html", stats=stats)
+
+@app.route("/review")
+def review_page():
+    review_ids = get_review_question_ids()
+
+    review_indices = []
+
+    for index, question in enumerate(questions):
+        if question["id"] in review_ids:
+            review_indices.append(index)
+
+    # 復習候補がない場合
+    if not review_indices:
+        return render_template("review_empty.html")
+
+
+    # 復習問題の出題順をシャッフル
+    random.shuffle(review_indices)
+
+    # 復習モードを設定
+    session["mode"] = "review"
+    session["question_order"] = review_indices
+
+    # スコアと回答履歴をリセット
+    session["score"] = 0
+    session["answers"] = []
+
+    # 復習問題の1問目へ移動
+    return redirect(url_for("home", q=0))
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
